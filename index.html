@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Destiny ❤️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-cream: #FFFBF0;
+            --deep-gold: #C5A059;
+            --rose-gold: #E0AFA0;
+            --text-dark: #2C2C2C;
+            --accent-red: #A4161A;
+            --mystic-dark: #1A1A1A;
+            --cute-pink: #FF8FAB;
+        }
+
+        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
+            font-family: 'Playfair Display', serif;
+            background-color: var(--bg-cream);
+            display: flex; justify-content: center; align-items: center;
+            color: var(--text-dark);
+            transition: background-color 1s;
+        }
+
+        .gold-dust {
+            position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+        }
+        .particle {
+            position: absolute; background: var(--deep-gold); border-radius: 50%; opacity: 0.6;
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
+
+        .frame {
+            position: fixed; top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 2px double var(--deep-gold); border-radius: 15px;
+            pointer-events: none; z-index: 10; opacity: 0; transition: opacity 1s;
+        }
+        .frame::after {
+            content: '❦'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-cream); padding: 0 15px; font-size: 24px; color: var(--deep-gold);
+        }
+
+        .stage {
+            position: relative; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2; padding: 20px;
+        }
+
+        .scene {
+            position: absolute;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; height: 100%;
+            opacity: 0; visibility: hidden;
+            text-align: center;
+        }
+
+        .cinematic-text {
+            font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #FFF;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            opacity: 0; position: absolute; padding: 20px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 20px;
+            color: var(--text-dark); line-height: 1.2;
+            font-family: 'Great Vibes', cursive;
+        }
+        .urdu-text { font-family: 'Amiri', serif; font-size: 2.2rem; color: var(--deep-gold); margin-bottom: 10px; }
+        
+        .cute-font { font-family: 'Dancing Script', cursive; }
+
+        .btn-royal {
+            background: linear-gradient(135deg, #C5A059 0%, #D4AF37 100%);
+            color: white; border: none; padding: 15px 40px; font-size: 1.4rem;
+            border-radius: 50px; font-family: 'Amiri', serif; font-weight: 700;
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+            cursor: pointer; transition: transform 0.2s; position: relative; overflow: hidden;
+        }
+        .btn-royal:active { transform: scale(0.95); }
+        
+        .btn-reject {
+            background: #E57373; color: white; border: none;
+            padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;
+            font-family: 'Amiri', serif; font-weight: 700;
+            cursor: pointer; margin-left: 10px; position: absolute;
+            box-shadow: 0 5px 15px rgba(229, 115, 115, 0.3);
+        }
+
+        .btn-option {
+            background: white; border: 2px solid var(--deep-gold);
+            color: var(--deep-gold); padding: 15px 30px; margin: 10px;
+            font-size: 1.3rem; border-radius: 30px; cursor: pointer;
+            transition: all 0.3s; font-family: 'Dancing Script', cursive; font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .btn-option:hover { background: var(--deep-gold); color: white; transform: translateY(-3px); }
+
+        .promise-card {
+            background: white; padding: 40px 30px; border-radius: 20px;
+            border: 2px solid var(--deep-gold);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.15);
+            max-width: 450px; transform-style: preserve-3d;
+            background-image: radial-gradient(#C5A059 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+        .promise-title { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--rose-gold); }
+        .promise-body { font-family: 'Dancing Script', cursive; font-size: 1.8rem; margin: 20px 0; line-height: 1.4; color: var(--text-dark); }
+
+        .cert-container {
+            width: min(650px, 95vw); background: #FFF;
+            padding: 30px; border: 8px double var(--deep-gold);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            position: relative; opacity: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z' fill='%23C5A059' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .cert-details-grid {
+            display: flex; justify-content: space-between; border-top: 1px solid #EEE; border-bottom: 1px solid #EEE;
+            padding: 15px 0; margin: 20px 0; font-family: 'Nunito', sans-serif; font-size: 0.9rem; color: #555;
+        }
+        .cert-col { text-align: center; flex: 1; }
+        .cert-label { color: var(--deep-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.7rem; margin-bottom: 5px; }
+        
+        .signature { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--text-dark); opacity: 0; min-height: 40px; border-bottom: 1px solid #CCC; width: 100%; display: block; margin-top: 5px;}
+        .seal { 
+            position: absolute; bottom: 30px; right: 30px; width: 90px; height: 90px;
+            border: 4px double var(--accent-red); border-radius: 50%; color: var(--accent-red);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold;
+            transform: rotate(-15deg); opacity: 0; font-family: 'Amiri'; background: rgba(164, 22, 26, 0.05);
+            font-size: 0.8rem; line-height: 1.2;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="gold-dust" id="dust-container"></div>
+    <div class="frame" id="main-frame"></div>
+
+    <div class="stage">
+
+        <div id="scene-0" class="scene" style="opacity:1; visibility:visible; background-color: #000;">
+            <div class="cinematic-text" id="intro-text"></div>
+            <button id="btn-start" class="btn-royal" style="opacity:0; margin-top:200px;" onclick="startJourney()">Assalamu Alaikum❤️</button>
+        </div>
+
+        <div id="scene-1" class="scene">
+            <h2 style="color: var(--deep-gold); margin-bottom: 30px; font-family: 'Amiri';">Dil Ki Baat</h2>
+            <h1 id="q-text" class="cute-font" style="font-size: 2.5rem; margin-bottom: 40px;">Kya Aap mujhpe trust karti ho?</h1>
+            
+            <div id="q-options">
+                <button class="btn-option" onclick="answerQuestion(true)">Jee Bilkul ❤️</button>
+                <button class="btn-option" onclick="answerQuestion(false)">Haa Jaanu ✨</button>
+            </div>
+            
+            <div id="progress-dots" style="margin-top: 30px; display:flex; gap:10px;">
+                <div class="dot" style="width:10px; height:10px; background:#ddd; border-radius:50%;"></div>
+                <div class="dot" style="width:10px; height:10px; background:#ddd; border-radius:50%;"></div>
+                <div class="dot" style="width:10px; height:10px; background:#ddd; border-radius:50%;"></div>
+                <div class="dot" style="width:10px; height:10px; background:#ddd; border-radius:50%;"></div>
+            </div>
+        </div>
+
+        <div id="scene-2" class="scene">
+            <div class="promise-card">
+                <div class="promise-title">Vow #<span id="vow-num">1</span></div>
+                <div class="promise-body" id="vow-text">
+                    "Main kabhi Aapka bharosa nahi todunga."<br>
+                    (I will never break your trust.)
+                </div>
+                <button class="btn-royal" style="font-size: 1.1rem; padding: 10px 40px;" onclick="nextVow()">I Believe You 🌹</button>
+            </div>
+        </div>
+
+        <div id="scene-3" class="scene">
+            <svg width="150" height="150" viewBox="0 0 100 100" style="margin-bottom: 20px; animation: floatParticle 3s infinite ease-in-out alternate;">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#D4AF37" stroke-width="2" />
+                <text x="50" y="60" text-anchor="middle" font-size="40">💍</text>
+            </svg>
+            
+            <h2 class="urdu-text" style="margin: 0; font-size: 2.5rem;">Sabiya...</h2>
+            <h1 class="cute-font" style="font-size: 4rem; color: var(--accent-red);">Mere Saath<br>Nikah Karogi?</h1>
+            <p id="status-text" style="color: var(--accent-red); font-weight: bold; min-height: 20px;">Dil se socho...</p>
+            
+            <div style="position: relative; width: 100%; height: 100px; display:flex; justify-content:center; align-items:center;">
+                <button class="btn-royal" onclick="nextScene(4)">Insha'Allah Yes! ✨</button>
+                <button class="btn-reject" id="btn-no" onmouseover="runAway()" onclick="runAway()">Sochungi...</button>
+            </div>
+        </div>
+
+        <div id="scene-4" class="scene">
+            <div style="font-size: 3rem; color: var(--deep-gold);">﷽</div>
+            <h2 style="color: var(--deep-gold); margin-top: 10px; font-family: 'Amiri'; font-size: 2rem;">The Sacred Covenant</h2>
+            <h1 id="qubool-text" class="cute-font" style="font-size: 3.5rem;">Bolo, Qubool Hai?</h1>
+            <p id="qubool-sub" style="font-family: 'Amiri'; font-size: 1.5rem; margin-bottom: 40px;">(Tap 3 times to seal our destiny)</p>
+            <button id="btn-qubool" class="btn-royal" style="font-size: 1.8rem;" onclick="handleQubool()">Qubool Hai 💖</button>
+        </div>
+
+        <div id="scene-5" class="scene">
+            <div class="cert-container" id="certificate">
+                <div style="text-align: center; border-bottom: 2px solid var(--deep-gold); padding-bottom: 15px; margin-bottom: 20px;">
+                    <div style="font-family: 'Amiri'; font-size: 1.3rem; color: var(--deep-gold);">✨ Bismillah-ir-Rahman-ir-Rahim ✨</div>
+                    <span style="font-family: 'Pinyon Script'; font-size: 4rem; color: var(--text-dark);">Nikah Nama</span>
+                </div>
+                
+                <p style="text-align: center; font-style: italic; color: #555; font-size: 1.1rem; margin-bottom: 20px;">
+                    "And We created you in pairs." (78:8)<br>
+                    This blessed document certifies the eternal union of
+                </p>
+                
+                <div style="display: flex; justify-content: center; align-items: center; margin: 25px 0;">
+                    <div style="text-align:center;">
+                        <span style="font-family: 'Great Vibes'; font-size: 3rem; color: var(--accent-red); display:block;">Zahid</span>
+                        <span style="font-size: 0.7rem; letter-spacing: 2px; color:#888;">GROOM</span>
+                    </div>
+                    <span style="font-family: 'Amiri'; font-size: 2rem; color: var(--deep-gold); margin: 0 20px;">&</span>
+                    <div style="text-align:center;">
+                        <span style="font-family: 'Great Vibes'; font-size: 3rem; color: var(--accent-red); display:block;">Sabiya</span>
+                        <span style="font-size: 0.7rem; letter-spacing: 2px; color:#888;">BRIDE</span>
+                    </div>
+                </div>
+
+                <div class="cert-details-grid">
+                    <div class="cert-col">
+                        <div class="cert-label">DATE / TAREEKH</div>
+                        <span id="cert-date-final"></span>
+                    </div>
+                    <div class="cert-col">
+                        <div class="cert-label">MAHR </div>
+                        <span>My Whole Heart ❤️</span>
+                    </div>
+                    <div class="cert-col">
+                        <div class="cert-label">WITNESSES</div>
+                        <span>Moon & Stars 🌙</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 30px; background: rgba(197, 160, 89, 0.1); padding: 10px; border-radius: 10px;">
+                    <p style="font-family: 'Dancing Script'; font-size: 1.4rem; color: var(--deep-gold); margin: 0;">
+                        "Aap meri dua hai, jo qubool ho gayi."
+                    </p>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px solid #D4AF37; padding-top: 10px;">
+                    <div style="text-align: center; width: 40%;">
+                        <div class="cert-label">GROOM SIGNATURE</div>
+                        <div class="signature" id="sign-groom">Zahid</div>
+                    </div>
+                    <div style="text-align: center; width: 40%;">
+                        <div class="cert-label">BRIDE SIGNATURE</div>
+                        <div class="signature" id="sign-bride">Sabiya</div>
+                    </div>
+                </div>
+                
+                <div class="seal">
+                    <span>OFFICIAL</span>
+                    <span style="font-size: 1.5rem;">❤</span>
+                    <span>UNION</span>
+                </div>
+                
+                <div style="position: absolute; bottom: 5px; left: 0; width: 100%; text-align: center; font-size: 0.7rem; color: #AAA;">
+                    Registered in the Court of Love
+                </div>
+            </div>
+            
+            <h2 style="margin-top: 30px; font-family: 'Great Vibes'; font-size: 3.5rem; color: var(--deep-gold);">Mubarak Ho! ✨</h2>
+        </div>
+
+    </div>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let heartInterval;
+
+        function playSound(type) {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
+            
+            if(type === 'bgm') { 
+                osc.type = 'sine'; osc.frequency.setValueAtTime(100, now);
+                gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now+2);
+            } else if(type === 'sparkle') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(600, now); gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now+0.5);
+            } else if(type === 'heartbeat') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(50, now);
+                gain.gain.setValueAtTime(0.6, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            } else if (type === 'scratch') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); gain.gain.setValueAtTime(0.03, now); gain.gain.linearRampToValueAtTime(0, now+0.2);
+            }
+            osc.start(now); osc.stop(now+(type==='bgm'?2:0.3));
+        }
+
+        function startHeartbeat() {
+            playSound('heartbeat');
+            heartInterval = setInterval(() => playSound('heartbeat'), 1000); 
+        }
+        function stopHeartbeat() { clearInterval(heartInterval); }
+
+        function initDust() {
+            const container = document.getElementById('dust-container');
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random()*100 + '%';
+                p.style.width = Math.random()*3 + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDuration = Math.random()*5 + 5 + 's';
+                p.style.animationDelay = Math.random()*5 + 's';
+                container.appendChild(p);
+            }
+        }
+        initDust();
+
+        const introTexts = [
+            "Assalamu Alaikum Mohtarma Jii ❤️",
+            "Kuch kehna hai Aapse...",
+            "Ek dil ki baat...",
+            "Are you ready?"
+        ];
+        
+        function playIntro() {
+            const el = document.getElementById('intro-text');
+            let tl = gsap.timeline();
+            
+            introTexts.forEach(text => {
+                tl.to(el, { opacity: 0, duration: 0.5, onComplete: () => el.innerText = text })
+                  .to(el, { opacity: 1, duration: 1.5, ease: "power2.inOut" })
+                  .to(el, { opacity: 0, duration: 0.5, delay: 1 });
+            });
+            
+            tl.to("#btn-start", { opacity: 1, duration: 1 });
+        }
+        playIntro();
+
+        function startJourney() {
+            document.body.style.backgroundColor = "#FFFBF0"; 
+            document.getElementById('scene-0').style.backgroundColor = 'transparent';
+            document.getElementById('main-frame').style.opacity = 1;
+            playSound('sparkle');
+            nextScene(1);
+        }
+
+        function nextScene(id) {
+            if(id === 3) startHeartbeat(); 
+            
+            gsap.to('.scene', { autoAlpha: 0, duration: 0.8 });
+            setTimeout(() => {
+                const target = document.getElementById(`scene-${id}`);
+                gsap.fromTo(target, { autoAlpha: 0, scale: 0.95 }, { autoAlpha: 1, duration: 1, scale: 1, ease: "power2.out" });
+                if(id === 5) showCertificate();
+            }, 800);
+        }
+
+        const questions = [
+            "Kya Aap mujhpe trust karti ho?",
+            "Kya Aap mera saath dogi?",
+            "Kya hum ek dusre ke liye bane hain?",
+            "Kya Aap tayyar ho?"
+        ];
+        let qIdx = 0;
+        
+        function answerQuestion(yes) {
+            playSound('sparkle');
+            document.querySelectorAll('.dot')[qIdx].style.background = "#C5A059";
+            
+            qIdx++;
+            if(qIdx < questions.length) {
+                const el = document.getElementById('q-text');
+                gsap.to(el, { opacity: 0, y: -10, duration: 0.2, onComplete: () => {
+                    el.innerText = questions[qIdx];
+                    gsap.to(el, { opacity: 1, y: 0, duration: 0.2 });
+                }});
+            } else {
+                nextScene(2);
+            }
+        }
+
+        const vows = [
+            { t: "Main kabhi Aapka bharosa nahi todunga.", e: "(I will never break your trust.)" },
+            { t: "Aapki izzat meri izzat hai.", e: "(Your honor is my honor.)" },
+            { t: "Har mushkil mein Aapke saath khada rahunga.", e: "(I will stand by you in every hardship.)" },
+            { t: "Hum Deen aur Duniya saath mein banayenge.", e: "(We will build our faith and world together.)" },
+            { t: "Akhri saans tak sirf Aapse mohabbat karunga.", e: "(I will love you till my last breath.)" }
+        ];
+        let vIdx = 0;
+        
+        function nextVow() {
+            playSound('sparkle');
+            vIdx++;
+            if(vIdx < vows.length) {
+                const title = document.getElementById('vow-num');
+                const body = document.getElementById('vow-text');
+                
+                gsap.to('.promise-card', { rotationY: 90, duration: 0.3, onComplete: () => {
+                    title.innerText = vIdx + 1;
+                    body.innerHTML = `${vows[vIdx].t}<br><br><span style="font-size:1.2rem; font-family:'Amiri'; color:#888;">${vows[vIdx].e}</span>`;
+                    gsap.to('.promise-card', { rotationY: 0, duration: 0.3 });
+                }});
+            } else {
+                nextScene(3);
+            }
+        }
+
+        function runAway() {
+            const btn = document.getElementById('btn-no');
+            const phrases = ["Galat Button! 😡", "Na ji Na!", "Dil se socho!", "Arey idhar! 👇", "Pakka?", "Try again! 😂"];
+            
+            const x = (Math.random() - 0.5) * 200;
+            const y = (Math.random() - 0.5) * 100;
+            
+            gsap.to(btn, { x: x, y: y, duration: 0.2, ease: "power1.out" });
+            document.getElementById('status-text').innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            playSound('bgm');
+        }
+
+        let quboolCount = 0;
+        function handleQubool() {
+            quboolCount++;
+            playSound('sparkle');
+            const btn = document.getElementById('btn-qubool');
+            const txt = document.getElementById('qubool-text');
+            const sub = document.getElementById('qubool-sub');
+            
+            gsap.from(btn, { scale: 1.1, duration: 0.2 });
+            confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 }, colors: ['#E0AFA0', '#C5A059'] });
+
+            if(quboolCount === 1) {
+                txt.innerText = "Dil Se Bolo...";
+                sub.innerText = "Once more...";
+                btn.innerText = "Qubool Hai ✨";
+            } else if(quboolCount === 2) {
+                txt.innerText = "Teesri Baar...";
+                sub.innerText = "Forever...";
+                btn.innerText = "QUBOOL HAI ❤️";
+            } else if(quboolCount === 3) {
+                stopHeartbeat();
+                nextScene(5);
+            }
+        }
+
+        function showCertificate() {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('cert-date-final').innerText = new Date().toLocaleDateString('en-US', options);
+
+            const tl = gsap.timeline();
+            tl.to("#certificate", { scale: 1, opacity: 1, duration: 1.2, ease: "power3.out" });
+            
+            tl.to("#sign-groom", { opacity: 1, clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 1, onStart: () => playSound('scratch') });
+            tl.to("#sign-bride", { opacity: 1, clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 1, onStart: () => playSound('scratch') }, "-=0.5");
+            
+            tl.to(".seal", { opacity: 0.8, scale: 1, rotation: -10, duration: 0.5, ease: "back.out(2)" });
+            
+            tl.add(() => {
+                const end = Date.now() + 3000;
+                (function frame() {
+                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#D4AF37', '#FFF'] });
+                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#D4AF37', '#FFF'] });
+                    if (Date.now() < end) requestAnimationFrame(frame);
+                }());
+            });
+        }
+
+        gsap.to(".scene-3 svg", { y: -10, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
+
+    </script>
+</body>
+</html>
+
